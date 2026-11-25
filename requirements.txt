@@ -1,0 +1,9 @@
+torch==2.2.2
+torchvision==0.17.2
+numpy==1.26.4
+scipy==1.15.3
+scikit-image==0.25.2
+matplotlib==3.10.9
+pillow==12.3.0
+bm3d==4.0.3
+tqdm==4.70.1
