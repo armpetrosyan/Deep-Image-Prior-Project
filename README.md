@@ -37,3 +37,17 @@ python dip.py
 
 The real runs (256x256 images, 3000 iterations) are too slow on a CPU. Run them
 on Google Colab with a GPU. The code works on both CPU and CUDA.
+
+## Running on Colab
+
+1. Open `colab_run.ipynb` in Colab (File -> Open notebook -> GitHub, and paste the repo URL).
+2. Choose a GPU: Runtime -> Change runtime type -> T4 GPU.
+3. Run the cells from top to bottom. The notebook checks the GPU, mounts Google
+   Drive, clones or updates the repo, installs the missing packages and runs the
+   smoke test.
+4. `results/` is linked to `MyDrive/DIP_results` on your Drive, so results are
+   kept when the runtime disconnects.
+5. Put your own script in the last cell, e.g. `!python exp_fitting.py`.
+
+After a disconnect, run all the cells again: the code is pulled again and
+`results/` is linked to Drive again.
