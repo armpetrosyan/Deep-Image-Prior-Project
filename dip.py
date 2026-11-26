@@ -56,6 +56,11 @@ def run_dip(target, clean=None, iters=3000, seed=0, net_cfg=None, lr=0.01,
     best_img = None
     out_avg = None
     imgs_at = {}
+    # The same, but for the moving-average output (only used when ema is set).
+    best_ema_psnr = None
+    best_ema_iter = None
+    best_ema_img = None
+    imgs_at_ema = {}
 
     start_time = time.time()
     for i in range(1, iters + 1):
@@ -87,7 +92,12 @@ def run_dip(target, clean=None, iters=3000, seed=0, net_cfg=None, lr=0.01,
             psnrs.append(current_psnr)
             psnr_iters.append(i)
             if ema is not None:
-                psnrs_ema.append(utils.psnr(out_avg, clean))
+                ema_psnr = utils.psnr(out_avg, clean)
+                psnrs_ema.append(ema_psnr)
+                if best_ema_psnr is None or ema_psnr > best_ema_psnr:
+                    best_ema_psnr = ema_psnr
+                    best_ema_iter = i
+                    best_ema_img = out_avg.cpu()
             # Remember the best output so far ("oracle" early stopping).
             if best_psnr is None or current_psnr > best_psnr:
                 best_psnr = current_psnr
@@ -96,6 +106,8 @@ def run_dip(target, clean=None, iters=3000, seed=0, net_cfg=None, lr=0.01,
 
         if i in save_at:
             imgs_at[i] = image.cpu()
+            if out_avg is not None:
+                imgs_at_ema[i] = out_avg.cpu()
 
         if verbose and (i % 500 == 0 or i == iters):
             message = f"iter {i:5d}  loss {losses[-1]:.5f}"
@@ -118,7 +130,11 @@ def run_dip(target, clean=None, iters=3000, seed=0, net_cfg=None, lr=0.01,
         "best_img": best_img,
         "final_img": image.cpu(),
         "ema_img": ema_img,
+        "best_ema_iter": best_ema_iter,
+        "best_ema_psnr": best_ema_psnr,
+        "best_ema_img": best_ema_img,
         "imgs_at": imgs_at,
+        "imgs_at_ema": imgs_at_ema,
         "runtime_s": runtime,
         "seed": seed,
         "iters": iters,
@@ -139,6 +155,11 @@ def save_result(result, path):
             # One entry per saved iteration, e.g. "img_at_1800".
             for iteration, img in value.items():
                 data[f"img_at_{iteration}"] = utils.to_numpy(img)
+        elif key == "imgs_at_ema":
+            # The same for the moving-average output, e.g. "ema_img_at_1800".
+            for (iteration,
+                 img) in value.items():
+                data[f"ema_img_at_{iteration}"] = utils.to_numpy(img)
         elif key == "net_cfg":
             # np.savez cannot store a dict without pickle, so store it as text.
             data[key] = json.dumps(value)
@@ -154,7 +175,7 @@ def save_result(result, path):
 
 
 def load_result(path):
-    """Load a saved result as a dict of numpy arrays."""
+    """Load a saved result as a dict of NumPy arrays."""
     result = {}
     with np.load(path) as f:
         for key in f.files:
