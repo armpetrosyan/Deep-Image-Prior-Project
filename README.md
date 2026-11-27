@@ -51,3 +51,11 @@ on Google Colab with a GPU. The code works on both CPU and CUDA.
 
 After a disconnect, run all the cells again: the code is pulled again and
 `results/` is linked to Drive again.
+
+## Results
+
+Final results are in `final_results/`, one folder per part.
+
+- `partA_fig1_fitting_speed/`: Fig 1 (`figures/`) and its tables (`tables/`).
+  Made with `python exp_fitting.py` then `python plot_fig1.py`
+  (48 runs on a Colab T4; code at commit e2ad139).

@@ -109,7 +109,8 @@ def main_figure(runs, out_dir):
 def per_image_figure(runs, out_dir):
     """One panel per image (2x2 grid), averaged over seeds only."""
     image_names = sorted(set(run["image"] for run in runs))
-    fig, axes = plt.subplots(2, 2, figsize=(10, 7), sharex=True, sharey=True)
+    fig, axes = plt.subplots(2, 2, figsize=(10, 7), sharex=True, sharey=True,
+                             constrained_layout=True)
     axes = axes.flatten()
     for i in range(4):
         ax = axes[i]
@@ -124,6 +125,8 @@ def per_image_figure(runs, out_dir):
             plot_curves(ax, image_runs, target)
         draw_noise_level(ax)
         style_axes(ax)
+        if i < 2:
+            ax.set_xlabel("")      # "Iteration" only on the bottom row
         ax.set_title(image_names[i])
     axes[0].legend(frameon=False, fontsize=9)
     save_figure(fig, out_dir, "fig1_per_image")
