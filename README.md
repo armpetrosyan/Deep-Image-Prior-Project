@@ -59,3 +59,7 @@ Final results are in `final_results/`, one folder per part.
 - `partA_fig1_fitting_speed/`: Fig 1 (`figures/`) and its tables (`tables/`).
   Made with `python exp_fitting.py` then `python plot_fig1.py`
   (48 runs on a Colab T4; code at commit e2ad139).
+- `partB_table1_dip_vs_baselines/`: Table 1 and the per-image table (`tables/`)
+  and the tuning plot (`figures/`). Made with `python tune.py`, then
+  `python exp_table1.py` and `python make_table1.py`
+  (36 cases; DIP on a Colab T4, TV and BM3D on the Colab CPU; code at commit e2ad139).
