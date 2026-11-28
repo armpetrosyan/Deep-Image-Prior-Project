@@ -1,0 +1,24 @@
+\begin{table}[t]
+  \centering
+  % TODO: write the caption in your own words. Mention: mean +- std over
+  % 4 images x 3 seeds, bold = best without the clean image, oracles pick
+  % their setting with the clean image, BM3D is given sigma and DIP is not,
+  % DIP time on a Colab T4 GPU, TV and BM3D time on the Colab CPU.
+  \caption{TODO}
+  \label{tab:table1}
+  \resizebox{\linewidth}{!}{%
+  \begin{tabular}{lccccccccc}
+    \toprule
+     & \multicolumn{3}{c}{$\sigma=15$} & \multicolumn{3}{c}{$\sigma=25$} & \multicolumn{3}{c}{$\sigma=50$} \\
+    \cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
+    Method & PSNR (dB) & SSIM & Time (s) & PSNR (dB) & SSIM & Time (s) & PSNR (dB) & SSIM & Time (s) \\
+    \midrule
+    No prior & 24.70 $\pm$ 0.03 & 0.642 $\pm$ 0.120 & $<$0.01 & 20.37 $\pm$ 0.05 & 0.479 $\pm$ 0.127 & $<$0.01 & 14.80 $\pm$ 0.10 & 0.274 $\pm$ 0.099 & $<$0.01 \\
+    TV (tuned) & 28.84 $\pm$ 1.89 & 0.851 $\pm$ 0.030 & 0.0509 & 26.16 $\pm$ 1.87 & 0.767 $\pm$ 0.044 & 0.065 & 22.90 $\pm$ 1.67 & 0.618 $\pm$ 0.054 & 0.0731 \\
+    TV (oracle) & 29.10 $\pm$ 1.70 & 0.851 $\pm$ 0.029 & 0.0489 & 26.30 $\pm$ 1.77 & 0.768 $\pm$ 0.046 & 0.0601 & 22.98 $\pm$ 1.68 & 0.635 $\pm$ 0.070 & 0.0684 \\
+    BM3D & \textbf{33.02 $\pm$ 1.79} & \textbf{0.931 $\pm$ 0.018} & 11.9 & \textbf{30.19 $\pm$ 1.88} & \textbf{0.884 $\pm$ 0.039} & 12 & \textbf{26.09 $\pm$ 1.75} & \textbf{0.781 $\pm$ 0.082} & 12.2 \\
+    DIP (fixed) & 30.86 $\pm$ 1.88 & 0.873 $\pm$ 0.029 & 134 & 27.44 $\pm$ 1.35 & 0.768 $\pm$ 0.044 & 107 & 23.08 $\pm$ 0.94 & 0.567 $\pm$ 0.078 & 52 \\
+    DIP (oracle) & 30.91 $\pm$ 1.92 & 0.876 $\pm$ 0.029 & 127 & 27.88 $\pm$ 1.66 & 0.790 $\pm$ 0.037 & 85.5 & 23.50 $\pm$ 1.30 & 0.589 $\pm$ 0.070 & 38 \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
